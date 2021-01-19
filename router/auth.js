@@ -11,7 +11,6 @@ router.post("/login", (req, res) => {
     const token = generateAuthToken(username);
     res.send({ username, token });
   } catch (err) {
-    console.log(err);
     res.status(400).send(err.message);
   }
 });

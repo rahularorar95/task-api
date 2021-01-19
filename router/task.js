@@ -15,7 +15,7 @@ router.post("/tasks", async (req, res) => {
     await task.save();
     res.status(201).send(task);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
@@ -28,7 +28,7 @@ router.get("/tasks", async (req, res) => {
 
     res.status(200).send(tasks);
   } catch (err) {
-    res.status(400).send(err.message);
+    res.status(500).send(err.message);
   }
 });
 
@@ -57,7 +57,6 @@ router.patch("/tasks/:id", async (req, res) => {
         if (err) {
           res.status(400).send({ error: "No task with that id" });
         }
-
         res.status(200).send(task);
       }
     );
@@ -72,7 +71,6 @@ router.patch("/tasks/:id", async (req, res) => {
 router.delete("/tasks/:id", async (req, res) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id, (err, task) => {
-      console.log(task);
       if (err) {
         res.status(400).send({ error: "No task with that id" });
       }
