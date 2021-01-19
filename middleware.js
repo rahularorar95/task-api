@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
       next();
     });
   } catch (error) {
-    res.status(401).json({ error: "Please log in first." });
+    res.status(401).json({ error: "Authentication Error" });
   }
 };
 
