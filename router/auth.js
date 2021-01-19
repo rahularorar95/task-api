@@ -10,9 +10,9 @@ router.post("/login", (req, res) => {
     const username = req.body.username;
     const token = generateAuthToken(username);
     res.send({ username, token });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send("Login failed.");
+  } catch (err) {
+    console.log(err);
+    res.status(400).send(err.message);
   }
 });
 
