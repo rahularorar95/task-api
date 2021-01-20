@@ -1,10 +1,9 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-function ProtectedRoute({ children, ...rest }) {
+function ProtectedRoute({ children }) {
   return (
     <Route
-      {...rest}
       render={({ location }) =>
         localStorage.getItem("token") ? (
           children

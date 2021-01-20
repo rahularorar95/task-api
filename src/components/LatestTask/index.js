@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     height: 150,
     padding: theme.spacing(2),
     color: "#537278",
+    borderRadius: "10px",
   },
 }));
 

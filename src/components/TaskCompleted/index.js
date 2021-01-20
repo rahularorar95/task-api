@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: 150,
     padding: theme.spacing(2),
+    borderRadius: "10px",
   },
   grayColor: {
     color: "#537278",

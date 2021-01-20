@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +35,11 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles();
-
+  let history = useHistory();
+  const logout = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
   return (
     <div className={classes.root}>
       <AppBar color="inherit" position="static">
@@ -55,7 +60,7 @@ function Header() {
           <Typography variant="h6" className={classes.username}>
             Rahul
           </Typography>
-          <Button>
+          <Button onClick={logout}>
             <span style={{ color: "#537278" }}>Logout</span>
           </Button>
         </Toolbar>
