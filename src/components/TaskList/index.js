@@ -14,7 +14,6 @@ import Button from "@material-ui/core/Button";
 import InputBase from "@material-ui/core/InputBase";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
-import NewTaskDialog from '../NewTaskDialog'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -95,10 +94,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function TaskList() {
+function TaskList({ openDialog }) {
   const classes = useStyles();
   const [checked, setChecked] = useState([0]);
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
@@ -112,17 +110,8 @@ function TaskList() {
 
     setChecked(newChecked);
   };
-  const handleNewTaskOpen = () => {
-    setDialogOpen(true);
-  };
-
-  const handleNewTaskClose = () => {
-    setDialogOpen(false);
-  };
   return (
     <div className={classes.taskListContainer}>
-      <NewTaskDialog open={dialogOpen} onClose={handleNewTaskClose} />
-
       <div className={classes.actions}>
         <Button variant="text" disableRipple className={classes.newTaskButton}>
           <span style={{ color: "#537278" }}>Tasks</span>
@@ -143,7 +132,7 @@ function TaskList() {
             />
           </div>
           <Button
-            onClick={handleNewTaskOpen}
+            onClick={openDialog}
             variant="contained"
             color="primary"
             className={classes.newTaskButton}
@@ -181,8 +170,8 @@ function TaskList() {
                     checked.indexOf(value) !== -1 ? (
                       <s>Line item {value + 1}</s>
                     ) : (
-                      `Line item ${value + 1}`
-                    )
+                        `Line item ${value + 1}`
+                      )
                   }
                 />
                 <ListItemSecondaryAction>

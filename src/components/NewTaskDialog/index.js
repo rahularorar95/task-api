@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -40,18 +40,32 @@ const useStyles = makeStyles((theme) => ({
     padding: 15,
   },
 
-  customPadding : {
+  customPadding: {
     padding: '8px 16px'
   }
 
 }));
 
-function NewTaskDialog({ open, onClose }) {
+function NewTaskDialog({ open, closeDialog, addTask }) {
   const classes = useStyles();
+  const [inputValue, setInputValue] = useState("")
 
   const handleClose = () => {
-    onClose();
+    closeDialog();
   };
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
+  const addTaskAndCloseDialog = (task) => {
+    if (task) {
+      addTask(task)
+      setInputValue("")
+    }
+
+  }
+
   return (
     <Dialog
       onClose={handleClose}
@@ -59,7 +73,7 @@ function NewTaskDialog({ open, onClose }) {
       open={open}
       classes={{ paper: classes.dialog }}
     >
-      <DialogTitle id="simple-dialog-title" classes = {{root:classes.customPadding}}>
+      <DialogTitle id="simple-dialog-title" classes={{ root: classes.customPadding }}>
         <Button variant="text" disableRipple>
           <b>New Task</b>
         </Button>
@@ -71,11 +85,14 @@ function NewTaskDialog({ open, onClose }) {
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
-          inputProps={{ "aria-label": "" }}
+          required="true"
+          value={inputValue}
+          onChange={handleChange}
         />
+
       </div>
       <Button
-        onClick={handleClose}
+        onClick={() => addTaskAndCloseDialog(inputValue)}
         variant="contained"
         color="primary"
         className={classes.newTaskButton}
