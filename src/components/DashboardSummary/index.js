@@ -15,16 +15,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DashboardSummary() {
+function DashboardSummary({ taskList }) {
   const classes = useStyles();
+  const completedTasks = taskList.filter((task) => task.completed);
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={4}>
-          <TaskCompleted />
+          <TaskCompleted
+            totalCompletedTasks={completedTasks.length}
+            totalTasks={taskList.length}
+          />
         </Grid>
         <Grid item xs={12} sm={4}>
-          <LatestTask />
+          <LatestTask latestTasks={taskList.slice(-3).reverse()} />
         </Grid>
 
         <Grid item xs={12} sm={4}>

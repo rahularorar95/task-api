@@ -90,26 +90,19 @@ const useStyles = makeStyles((theme) => ({
   },
 
   taskListContainer: {
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 }));
 
-function TaskList({ openDialog }) {
+function TaskList({
+  openDialog,
+  taskList,
+  toggleTaskStatus,
+  hanleEditTask,
+  handleDeleteTask,
+}) {
   const classes = useStyles();
-  const [checked, setChecked] = useState([0]);
 
-  const handleToggle = (value) => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
   return (
     <div className={classes.taskListContainer}>
       <div className={classes.actions}>
@@ -144,21 +137,22 @@ function TaskList({ openDialog }) {
 
       <Paper className={classes.paper}>
         <List className={classes.list}>
-          {[0, 1, 2, 3].map((value) => {
-            const labelId = `checkbox-list-label-${value}`;
+          {taskList.map(({ id, description, completed }) => {
+            console.log(id, description, completed);
+            const labelId = `checkbox-list-label-${id}`;
 
             return (
               <ListItem
-                key={value}
+                key={id}
                 role={undefined}
                 dense
                 button
-                onClick={() => handleToggle(value)}
+                onClick={() => toggleTaskStatus(id)}
               >
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
-                    checked={checked.indexOf(value) !== -1}
+                    checked={completed}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -166,21 +160,15 @@ function TaskList({ openDialog }) {
                 </ListItemIcon>
                 <ListItemText
                   id={labelId}
-                  primary={
-                    checked.indexOf(value) !== -1 ? (
-                      <s>Line item {value + 1}</s>
-                    ) : (
-                        `Line item ${value + 1}`
-                      )
-                  }
+                  primary={completed ? <s>{description}</s> : description}
                 />
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="edit">
-                    <EditIcon />
+                    <EditIcon onClick={() => hanleEditTask(id)} />
                   </IconButton>
 
                   <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon />
+                    <DeleteIcon onClick={() => handleDeleteTask(id)} />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>

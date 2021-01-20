@@ -41,30 +41,28 @@ const useStyles = makeStyles((theme) => ({
   },
 
   customPadding: {
-    padding: '8px 16px'
-  }
-
+    padding: "8px 16px",
+  },
 }));
 
 function NewTaskDialog({ open, closeDialog, addTask }) {
   const classes = useStyles();
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState("");
 
   const handleClose = () => {
     closeDialog();
   };
 
   const handleChange = (e) => {
-    setInputValue(e.target.value)
-  }
+    setInputValue(e.target.value);
+  };
 
-  const addTaskAndCloseDialog = (task) => {
-    if (task) {
-      addTask(task)
-      setInputValue("")
+  const addTaskAndCloseDialog = (taskDescription) => {
+    if (taskDescription) {
+      addTask(taskDescription);
+      setInputValue("");
     }
-
-  }
+  };
 
   return (
     <Dialog
@@ -73,7 +71,10 @@ function NewTaskDialog({ open, closeDialog, addTask }) {
       open={open}
       classes={{ paper: classes.dialog }}
     >
-      <DialogTitle id="simple-dialog-title" classes={{ root: classes.customPadding }}>
+      <DialogTitle
+        id="simple-dialog-title"
+        classes={{ root: classes.customPadding }}
+      >
         <Button variant="text" disableRipple>
           <b>New Task</b>
         </Button>
@@ -89,7 +90,6 @@ function NewTaskDialog({ open, closeDialog, addTask }) {
           value={inputValue}
           onChange={handleChange}
         />
-
       </div>
       <Button
         onClick={() => addTaskAndCloseDialog(inputValue)}

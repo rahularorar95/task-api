@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#537278",
   },
 }));
-function TaskCompleted() {
+function TaskCompleted({ totalCompletedTasks, totalTasks }) {
   const classes = useStyles();
   return (
     <Paper className={classes.root}>
@@ -24,9 +24,9 @@ function TaskCompleted() {
         className={classes.grayColor}
       >
         <span style={{ color: "#5285EC" }}>
-          <b>5</b>
+          <b>{totalCompletedTasks}</b>
         </span>
-        <sub style={{ fontSize: "23px" }}>/20</sub>
+        <sub style={{ fontSize: "23px" }}>/{totalTasks}</sub>
       </Typography>
     </Paper>
   );
