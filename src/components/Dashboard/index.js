@@ -1,6 +1,8 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Header from '../Header';
+import TaskList from '../TaskList';
+import Container from '../../container';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,9 +20,15 @@ function Dashboard() {
             {/* Header */}
             <Header/>
             
+            <Container> 
             {/* DashboardStats */}
 
             {/* TasksList */}
+
+            <TaskList />
+
+            </Container>
+
 
         </div>
     )
