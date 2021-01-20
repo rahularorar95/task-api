@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import InputBase from "@material-ui/core/InputBase";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
+import NewTaskDialog from '../NewTaskDialog'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -29,72 +30,73 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
   search: {
-    position: 'relative',
+    position: "relative",
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade('#5285EC', 0.15),
-    '&:hover': {
-      backgroundColor: fade('#5285EC', 0.25),
+    backgroundColor: fade("#5285EC", 0.15),
+    "&:hover": {
+      backgroundColor: fade("#5285EC", 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: 'auto',
+      width: "auto",
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'rgba(0,0,0,0.54)'
+    height: "100%",
+    position: "absolute",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "rgba(0,0,0,0.54)",
   },
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
     },
   },
   newTaskButton: {
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
       marginTop: 10,
-      marginBottom: 10
+      marginBottom: 10,
     },
   },
   actions: {
-    display: 'flex',
-    [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column'
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
     },
-    marginBottom: 10
+    marginBottom: 10,
   },
   rightActionGroup: {
-    display: 'flex',
-    marginLeft: 'auto',
-    [theme.breakpoints.down('sm')]: {
+    display: "flex",
+    marginLeft: "auto",
+    [theme.breakpoints.down("sm")]: {
       marginLeft: 0,
-      flexDirection: 'column',
+      flexDirection: "column",
     },
-  }
+  },
 }));
 
 function TaskList() {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = useState([0]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleToggle = (value) =>{
+  const handleToggle = (value) => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -106,12 +108,20 @@ function TaskList() {
 
     setChecked(newChecked);
   };
-  const handleNewTaskOpen = () => {};
+  const handleNewTaskOpen = () => {
+    setDialogOpen(true);
+  };
+
+  const handleNewTaskClose = () => {
+    setDialogOpen(false);
+  };
   return (
     <div>
+      <NewTaskDialog open={dialogOpen} onClose={handleNewTaskClose} />
+
       <div className={classes.actions}>
-      <Button variant="text" disableRipple className={classes.newTaskButton}>
-        <span style={{color: "#537278"}}>Tasks</span>
+        <Button variant="text" disableRipple className={classes.newTaskButton}>
+          <span style={{ color: "#537278" }}>Tasks</span>
         </Button>
 
         <div className={classes.rightActionGroup}>
@@ -150,7 +160,7 @@ function TaskList() {
                 role={undefined}
                 dense
                 button
-                onClick={()=> handleToggle(value)}
+                onClick={() => handleToggle(value)}
               >
                 <ListItemIcon>
                   <Checkbox
