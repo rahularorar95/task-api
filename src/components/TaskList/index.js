@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 10,
   },
   search: {
+    color: "rgba(0,0,0,0.54)",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade("#5285EC", 0.15),
@@ -102,6 +103,23 @@ function TaskList({
   handleDeleteTask,
 }) {
   const classes = useStyles();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [taskListCopy, setTaskListCopy] = useState([...taskList]); // using for search functionality
+
+  useEffect(() => {
+    setTaskListCopy(taskList);
+    setSearchTerm("");
+  }, [taskList]);
+
+  const searchTask = (e) => {
+    const searchText = e.target.value;
+    const updatedTaskList = taskList.filter((task) =>
+      task.description.includes(searchText)
+    );
+    setTaskListCopy(updatedTaskList);
+
+    setSearchTerm(searchText);
+  };
 
   return (
     <div className={classes.taskListContainer}>
@@ -121,7 +139,8 @@ function TaskList({
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+              value={searchTerm}
+              onChange={searchTask}
             />
           </div>
           <Button
@@ -137,7 +156,7 @@ function TaskList({
 
       <Paper className={classes.paper}>
         <List className={classes.list}>
-          {taskList.map(({ id, description, completed }) => {
+          {taskListCopy?.map(({ id, description, completed }) => {
             console.log(id, description, completed);
             const labelId = `checkbox-list-label-${id}`;
 

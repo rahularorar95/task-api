@@ -86,7 +86,6 @@ function NewTaskDialog({ open, closeDialog, addTask }) {
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
-          required="true"
           value={inputValue}
           onChange={handleChange}
         />
