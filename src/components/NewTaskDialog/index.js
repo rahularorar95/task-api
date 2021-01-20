@@ -8,7 +8,8 @@ import InputBase from "@material-ui/core/InputBase";
 
 const useStyles = makeStyles((theme) => ({
   newTaskButton: {
-    margin: 10,
+    padding: 10,
+    marginTop: 10,
   },
   inputContainer: {
     position: "relative",
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade("#5285EC", 0.25),
     },
     margin: "auto",
+    padding: 8,
     width: "90%",
   },
   inputRoot: {
@@ -33,6 +35,15 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
   },
+
+  dialog: {
+    padding: 15,
+  },
+
+  customPadding : {
+    padding: '8px 16px'
+  }
+
 }));
 
 function NewTaskDialog({ open, onClose }) {
@@ -41,16 +52,16 @@ function NewTaskDialog({ open, onClose }) {
   const handleClose = () => {
     onClose();
   };
-
   return (
     <Dialog
       onClose={handleClose}
       aria-labelledby="simple-dialog-title"
       open={open}
+      classes={{ paper: classes.dialog }}
     >
-      <DialogTitle id="simple-dialog-title">
+      <DialogTitle id="simple-dialog-title" classes = {{root:classes.customPadding}}>
         <Button variant="text" disableRipple>
-          New Task
+          <b>New Task</b>
         </Button>
       </DialogTitle>
       <div className={classes.inputContainer}>

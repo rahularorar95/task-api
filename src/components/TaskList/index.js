@@ -89,6 +89,10 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
     },
   },
+
+  taskListContainer: {
+    marginTop: 30
+  }
 }));
 
 function TaskList() {
@@ -116,7 +120,7 @@ function TaskList() {
     setDialogOpen(false);
   };
   return (
-    <div>
+    <div className={classes.taskListContainer}>
       <NewTaskDialog open={dialogOpen} onClose={handleNewTaskClose} />
 
       <div className={classes.actions}>
