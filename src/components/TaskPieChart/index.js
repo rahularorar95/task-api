@@ -9,8 +9,8 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2),
       borderRadius: "10px",
     },
-    grayColor: {
-      color: "#537278",
+    label: {
+      fontSize:'7px'
     },
   }));
 function TaskPieChart({ totalCompletedTasks, totalTasks }) {
@@ -18,7 +18,7 @@ function TaskPieChart({ totalCompletedTasks, totalTasks }) {
     return (
         <Paper className={classes.root}>
         
-       <PieChart
+       <PieChart label={(props) => { return props.dataEntry.title;}} className={classes.label}
         data={[
           { title: 'Completed Tasks', value: totalCompletedTasks, color: '#5285EC' },
           { title: 'Remaining Tasks', value: totalTasks-totalCompletedTasks, color: '#E8ECEC' },
