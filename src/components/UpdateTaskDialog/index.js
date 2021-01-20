@@ -45,9 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObject,handleEditTask }) {
+function UpdateTaskDialog({ open, closeDialog, id,description,editTask }) {
   const classes = useStyles();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(description);
 
   const handleClose = () => {
     closeDialog();
@@ -57,9 +57,9 @@ function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObj
     setInputValue(e.target.value);
   };
 
-  const addTaskAndCloseDialog = (taskDescription) => {
+  const updateTaskAndCloseDialog = (taskDescription) => {
     if (taskDescription) {
-      handleAddTask(taskDescription);
+      editTask(id,taskDescription);
       setInputValue("");
     }
   };
@@ -76,8 +76,7 @@ function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObj
         classes={{ root: classes.customPadding }}
       >
         <Button variant="text" disableRipple>
-          { editTask ?(<b>Update Task</b>) :(<b>New Task</b>)}
-          
+          <b>New Task</b>
         </Button>
       </DialogTitle>
       <div className={classes.inputContainer}>
@@ -87,20 +86,20 @@ function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObj
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
-          value={editTask ? inputValue : editTaskObject.description}
+          value={inputValue}
           onChange={handleChange}
         />
       </div>
       <Button
-        onClick={() => addTaskAndCloseDialog(inputValue)}
+        onClick={() => updateTaskAndCloseDialog(inputValue)}
         variant="contained"
         color="primary"
         className={classes.newTaskButton}
       >
-        <AddIcon /> New Task
+        Update
       </Button>
     </Dialog>
   );
 }
 
-export default NewTaskDialog;
+export default UpdateTaskDialog;

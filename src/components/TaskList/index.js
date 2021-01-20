@@ -99,8 +99,8 @@ function TaskList({
   openDialog,
   taskList,
   toggleTaskStatus,
-  hanleEditTask,
-  handleDeleteTask,
+  hanleEditClick,
+  handleDeleteClick,
 }) {
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
@@ -183,11 +183,11 @@ function TaskList({
                 />
                 <ListItemSecondaryAction>
                   <IconButton edge="end" aria-label="edit">
-                    <EditIcon onClick={() => hanleEditTask(id)} />
+                    <EditIcon onClick={() => hanleEditClick(id,description)} />
                   </IconButton>
 
                   <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon onClick={() => handleDeleteTask(id)} />
+                    <DeleteIcon onClick={() => handleDeleteClick(id)} />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>

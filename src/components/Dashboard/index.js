@@ -17,6 +17,9 @@ function Dashboard() {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const [editTask, setEditTask] = useState(false)
+  const [editTaskObject, setEditTaskObject] = useState({})
+
   const [taskList, updateTaskList] = useState([
     {
       id: 1,
@@ -53,7 +56,7 @@ function Dashboard() {
     setDialogOpen(false);
   };
 
-  const addTask = (taskDescription) => {
+  const handleAddTask = (taskDescription) => {
     console.log(taskDescription);
     updateTaskList([
       ...taskList,
@@ -66,6 +69,10 @@ function Dashboard() {
     handleDialogClose();
   };
 
+  const handleEditTask = (taskId,taskDescription)=>{
+
+  }
+
   const toggleTaskStatus = (taskId) => {
     const updatedTaskList = taskList.map((task) =>
       task.id === taskId ? { ...task, completed: !task.completed } : task
@@ -74,9 +81,14 @@ function Dashboard() {
     updateTaskList(updatedTaskList);
   };
 
-  const hanleEditTask = (taskId) => {};
+  const hanleEditClick = (taskId,taskDescription) => {
+    setEditTask(true)
+    setEditTaskObject({id:taskId,desription:taskDescription})
+    setDialogOpen(true)
 
-  const handleDeleteTask = (taskId) => {
+  };
+
+  const handleDeleteClick = (taskId) => {
     const updatedTaskList = taskList.filter((task) => task.id !== taskId);
     updateTaskList(updatedTaskList);
   };
@@ -91,8 +103,8 @@ function Dashboard() {
             openDialog={handleDialogOpen}
             taskList={taskList}
             toggleTaskStatus={toggleTaskStatus}
-            hanleEditTask={hanleEditTask}
-            handleDeleteTask={handleDeleteTask}
+            hanleEditClick={hanleEditClick}
+            handleDeleteClick={handleDeleteClick}
           />
         </Container>
       ) : (
@@ -102,7 +114,10 @@ function Dashboard() {
       <NewTaskDialog
         open={dialogOpen}
         closeDialog={handleDialogClose}
-        addTask={addTask}
+        handleAddTask={handleAddTask}
+        editTask = {editTask}
+        editTaskObject = {editTaskObject}
+        handleEditTask = {handleEditTask}
       />
     </div>
   );

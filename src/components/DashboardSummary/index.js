@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TaskCompleted from "../TaskCompleted";
 import LatestTask from "../LatestTask";
+import TaskPieChart from "../TaskPieChart";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -32,7 +33,10 @@ function DashboardSummary({ taskList }) {
         </Grid>
 
         <Grid item xs={12} sm={4}>
-          <Paper className={classes.paper} />
+          <TaskPieChart
+            totalCompletedTasks={completedTasks.length}
+            totalTasks={taskList.length}
+          />
         </Grid>
       </Grid>
     </div>
