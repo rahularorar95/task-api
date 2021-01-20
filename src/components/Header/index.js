@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme) => ({
     height: 64,
   },
   username: {
-    border: "1px solid black",
     flexGrow: 1,
     textAlign: "start",
     color: "#537278",

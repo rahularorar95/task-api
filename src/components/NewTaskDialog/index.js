@@ -7,7 +7,6 @@ import AddIcon from "@material-ui/icons/Add";
 import InputBase from "@material-ui/core/InputBase";
 
 const useStyles = makeStyles((theme) => ({
-
   newTaskButton: {
     margin: 10,
   },
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: fade("#5285EC", 0.25),
     },
-    margin:"auto",
+    margin: "auto",
     width: "90%",
   },
   inputRoot: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 1, 1, 1),
     // vertical padding + font size from searchIcon
     // paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    
+
     width: "100%",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
