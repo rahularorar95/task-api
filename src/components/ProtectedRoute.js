@@ -1,11 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Route, Redirect } from "react-router-dom";
+
+
 
 function ProtectedRoute({ children }) {
   return (
     <Route
       render={({ location }) =>
-        localStorage.getItem("token") ? (
+        localStorage.getItem('token') ? (
           children
         ) : (
           <Redirect

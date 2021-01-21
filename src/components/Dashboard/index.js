@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Dashboard() {
+function Dashboard({username}) {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -109,7 +109,7 @@ function Dashboard() {
   };
   return (
     <div className={classes.root}>
-      <Header />
+      <Header username = {username}/>
       {taskList.length > 0 ? (
         <Container>
           <DashboardSummary taskList={taskList} />

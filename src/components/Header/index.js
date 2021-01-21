@@ -33,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header() {
+function Header({username}) {
   const classes = useStyles();
   let history = useHistory();
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token")
     history.push("/");
   };
   return (
@@ -58,7 +58,7 @@ function Header() {
             />
           </IconButton>
           <Typography variant="h6" className={classes.username}>
-            Rahul
+            {username}
           </Typography>
           <Button onClick={logout}>
             <span style={{ color: "#537278" }}>Logout</span>
