@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     borderRadius: "10px",
-    color: theme.palette.text.secondary,
-    marginTop: 10,
+    color: "#537278",
+    marginTop: theme.spacing(2),
   },
   search: {
-    color: "rgba(0,0,0,0.54)",
+    color: "#537278",
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade("#5285EC", 0.15),
@@ -53,26 +53,21 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: "rgba(0,0,0,0.54)",
+    color: "#537278",
   },
   inputRoot: {
     color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
   },
   newTaskButton: {
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      marginTop: 10,
-      marginBottom: 10,
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(1),
     },
   },
   actions: {
@@ -80,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
-    marginBottom: 10,
+    marginBottom: theme.spacing(2),
   },
   rightActionGroup: {
     display: "flex",
@@ -92,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   taskListContainer: {
-    marginTop: 30,
+    marginTop: theme.spacing(4),
   },
 }));
 

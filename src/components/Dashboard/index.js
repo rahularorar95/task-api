@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Header from "../Header";
 import TaskList from "../TaskList";
 import DashboardSummary from "../DashboardSummary";
@@ -9,14 +8,7 @@ import NewTaskDialog from "../NewTaskDialog";
 import { axiosAuth } from "../../apis";
 import { useHistory } from "react-router-dom";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-}));
-
 function Dashboard({ username }) {
-  const classes = useStyles();
   const history = useHistory();
   const [contentLoading, setContentLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -146,7 +138,7 @@ function Dashboard({ username }) {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       <Header username={username} />
       {!contentLoading && taskList.length <= 0 ? (
         <EmptyDashboard openDialog={handleDialogOpen} />

@@ -8,14 +8,11 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import React, { useState } from "react";
-import "./App.css";
 
 function App() {
-  const [authToken, setAuthToken] = useState("");
   const [authUser, setAuthUser] = useState("");
 
   const setLoginStatus = (token, name) => {
-    setAuthToken(token);
     setAuthUser(name);
     localStorage.setItem("token", token);
   };

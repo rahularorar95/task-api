@@ -8,9 +8,6 @@ import { Button } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   menuButton: {
     marginRight: theme.spacing(2),
     height: 64,
@@ -33,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Header({username}) {
+function Header({ username }) {
   const classes = useStyles();
   let history = useHistory();
   const logout = () => {
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     history.push("/");
   };
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar color="inherit" position="static">
         <Toolbar className={classes.layoutMargin}>
           <IconButton

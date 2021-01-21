@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#537278",
   },
   newTaskButton: {
-    marginTop: 30,
-    padding: 8,
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(1),
   },
 }));
 

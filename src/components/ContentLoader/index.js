@@ -3,7 +3,7 @@ import ContentLoader from "react-content-loader";
 import Paper from "@material-ui/core/Paper";
 
 export const CardLoader = () => (
-  <Paper style={{ marginTop: 10 }}>
+  <Paper style={{ marginTop: 4 }}>
     <ContentLoader
       speed={1}
       width="100%"

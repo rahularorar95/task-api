@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   loginButton: {
-    margin: "20px",
+    margin: theme.spacing(3),
     width: "70%",
   },
 }));

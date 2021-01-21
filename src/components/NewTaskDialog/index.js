@@ -7,8 +7,8 @@ import InputBase from "@material-ui/core/InputBase";
 
 const useStyles = makeStyles((theme) => ({
   newTaskButton: {
-    padding: 10,
-    marginTop: 10,
+    padding: theme.spacing(1.5),
+    marginTop: theme.spacing(2),
   },
   inputContainer: {
     position: "relative",
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: fade("#5285EC", 0.25),
     },
     margin: "auto",
-    padding: 8,
+    padding: theme.spacing(1),
     width: "90%",
   },
   inputRoot: {
@@ -26,21 +26,15 @@ const useStyles = makeStyles((theme) => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 1),
-    // vertical padding + font size from searchIcon
-    // paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
   },
 
   dialog: {
-    padding: 15,
+    padding: theme.spacing(2),
   },
 
   customPadding: {
-    padding: "8px 16px",
+    padding: theme.spacing(1, 2),
   },
 }));
 
