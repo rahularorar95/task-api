@@ -165,7 +165,7 @@ function TaskList({
                 role={undefined}
                 dense
                 button
-                onClick={() => toggleTaskStatus(id,completed)}
+                onClick={() => toggleTaskStatus(id, completed)}
               >
                 <ListItemIcon>
                   <Checkbox
@@ -181,12 +181,20 @@ function TaskList({
                   primary={completed ? <s>{description}</s> : description}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="edit">
-                    <EditIcon onClick={() => hanleEditClick(id,description)} />
+                  <IconButton
+                    onClick={() => hanleEditClick(id, description)}
+                    edge="end"
+                    aria-label="edit"
+                  >
+                    <EditIcon />
                   </IconButton>
 
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon onClick={() => handleDeleteClick(id)} />
+                  <IconButton
+                    onClick={() => handleDeleteClick(id)}
+                    edge="end"
+                    aria-label="delete"
+                  >
+                    <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>

@@ -53,7 +53,6 @@ function NewTaskDialog({
   handleEditTask,
   resetEditTask,
 }) {
-  console.log(editTaskObject);
   const classes = useStyles();
   const [inputValue, setInputValue] = useState("");
 

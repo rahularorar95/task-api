@@ -29,8 +29,7 @@ function Dashboard({ username }) {
     axiosAuth
       .get("/tasks")
       .then((res) => {
-        console.log(res.status);
-        if (res.status == 200) {
+        if (res.status === 200) {
           updateTaskList(res.data);
         }
       })
@@ -55,8 +54,6 @@ function Dashboard({ username }) {
   };
 
   const handleAddTask = (taskDescription) => {
-    console.log(taskDescription);
-
     axiosAuth
       .post("/tasks", { description: taskDescription })
       .then((res) => {
@@ -129,7 +126,7 @@ function Dashboard({ username }) {
     axiosAuth
       .delete(`/tasks/${taskId}`)
       .then((res) => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           const updatedTaskList = taskList.filter((task) => task.id !== taskId);
           updateTaskList(updatedTaskList);
         }

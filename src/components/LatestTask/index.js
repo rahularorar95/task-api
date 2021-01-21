@@ -20,11 +20,11 @@ function LatestTask({ latestTasks }) {
       <ul>
         {latestTasks.map((task) =>
           task.completed ? (
-            <li>
+            <li key={task.id}>
               <s>{task.description}</s>
             </li>
           ) : (
-            <li>{task.description}</li>
+            <li key={task.id}>{task.description}</li>
           )
         )}
       </ul>

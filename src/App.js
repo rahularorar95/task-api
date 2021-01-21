@@ -8,7 +8,6 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import "./App.css";
 
 function App() {
