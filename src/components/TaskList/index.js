@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import InputBase from "@material-ui/core/InputBase";
 import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
+import { TaskListLoader } from "../ContentLoader";
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -101,6 +102,7 @@ function TaskList({
   toggleTaskStatus,
   hanleEditClick,
   handleDeleteClick,
+  contentLoading,
 }) {
   const classes = useStyles();
   const [searchTerm, setSearchTerm] = useState("");
@@ -122,87 +124,97 @@ function TaskList({
   };
 
   return (
-    <div className={classes.taskListContainer}>
-      <div className={classes.actions}>
-        <Button variant="text" disableRipple className={classes.newTaskButton}>
-          <span style={{ color: "#537278" }}>Tasks</span>
-        </Button>
+    <>
+      {contentLoading ? (
+        <TaskListLoader />
+      ) : (
+        <div className={classes.taskListContainer}>
+          <div className={classes.actions}>
+            <Button
+              variant="text"
+              disableRipple
+              className={classes.newTaskButton}
+            >
+              <span style={{ color: "#537278" }}>Tasks</span>
+            </Button>
 
-        <div className={classes.rightActionGroup}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              value={searchTerm}
-              onChange={searchTask}
-            />
-          </div>
-          <Button
-            onClick={openDialog}
-            variant="contained"
-            color="primary"
-            className={classes.newTaskButton}
-          >
-            <AddIcon /> New Task
-          </Button>
-        </div>
-      </div>
-
-      <Paper className={classes.paper}>
-        <List className={classes.list}>
-          {taskListCopy?.map(({ id, description, completed }) => {
-            const labelId = `checkbox-list-label-${id}`;
-
-            return (
-              <ListItem
-                key={id}
-                role={undefined}
-                dense
-                button
-                onClick={() => toggleTaskStatus(id, completed)}
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    edge="start"
-                    checked={completed}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ "aria-labelledby": labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={completed ? <s>{description}</s> : description}
+            <div className={classes.rightActionGroup}>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <SearchIcon />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  value={searchTerm}
+                  onChange={searchTask}
                 />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    onClick={() => hanleEditClick(id, description)}
-                    edge="end"
-                    aria-label="edit"
-                  >
-                    <EditIcon />
-                  </IconButton>
+              </div>
+              <Button
+                onClick={openDialog}
+                variant="contained"
+                color="primary"
+                className={classes.newTaskButton}
+              >
+                <AddIcon /> New Task
+              </Button>
+            </div>
+          </div>
 
-                  <IconButton
-                    onClick={() => handleDeleteClick(id)}
-                    edge="end"
-                    aria-label="delete"
+          <Paper className={classes.paper}>
+            <List className={classes.list}>
+              {taskListCopy?.map(({ id, description, completed }) => {
+                const labelId = `checkbox-list-label-${id}`;
+
+                return (
+                  <ListItem
+                    key={id}
+                    role={undefined}
+                    dense
+                    button
+                    onClick={() => toggleTaskStatus(id, completed)}
                   >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Paper>
-    </div>
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={completed}
+                        tabIndex={-1}
+                        disableRipple
+                        inputProps={{ "aria-labelledby": labelId }}
+                      />
+                    </ListItemIcon>
+                    <ListItemText
+                      id={labelId}
+                      primary={completed ? <s>{description}</s> : description}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        onClick={() => hanleEditClick(id, description)}
+                        edge="end"
+                        aria-label="edit"
+                      >
+                        <EditIcon />
+                      </IconButton>
+
+                      <IconButton
+                        onClick={() => handleDeleteClick(id)}
+                        edge="end"
+                        aria-label="delete"
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Paper>
+        </div>
+      )}
+    </>
   );
 }
 

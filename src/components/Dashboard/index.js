@@ -18,22 +18,23 @@ const useStyles = makeStyles((theme) => ({
 function Dashboard({ username }) {
   const classes = useStyles();
   const history = useHistory();
+  const [contentLoading, setContentLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-
   const [editTask, setEditTask] = useState(false);
   const [editTaskObject, setEditTaskObject] = useState({});
-
   const [taskList, updateTaskList] = useState([]);
 
   useEffect(() => {
     axiosAuth
       .get("/tasks")
       .then((res) => {
+        setContentLoading(false);
         if (res.status === 200) {
           updateTaskList(res.data);
         }
       })
       .catch((err) => {
+        setContentLoading(false);
         //unauthorized
         if (err.response.status === 401) {
           redirectToLogin();
@@ -143,22 +144,27 @@ function Dashboard({ username }) {
     setEditTask(false);
     setEditTaskObject({});
   };
+
   return (
     <div className={classes.root}>
       <Header username={username} />
-      {taskList.length > 0 ? (
+      {!contentLoading && taskList.length <= 0 ? (
+        <EmptyDashboard openDialog={handleDialogOpen} />
+      ) : (
         <Container>
-          <DashboardSummary taskList={taskList} />
+          <DashboardSummary
+            taskList={taskList}
+            contentLoading={contentLoading}
+          />
           <TaskList
             openDialog={handleDialogOpen}
             taskList={taskList}
             toggleTaskStatus={toggleTaskStatus}
             hanleEditClick={hanleEditClick}
             handleDeleteClick={handleDeleteClick}
+            contentLoading={contentLoading}
           />
         </Container>
-      ) : (
-        <EmptyDashboard openDialog={handleDialogOpen} />
       )}
 
       <NewTaskDialog
