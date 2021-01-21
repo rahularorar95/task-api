@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dialog from "@material-ui/core/Dialog";
-import AddIcon from "@material-ui/icons/Add";
 import InputBase from "@material-ui/core/InputBase";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,21 +44,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObject,handleEditTask }) {
+function NewTaskDialog({
+  open,
+  closeDialog,
+  handleAddTask,
+  editTask,
+  editTaskObject,
+  handleEditTask,
+  resetEditTask,
+}) {
+  console.log(editTaskObject);
   const classes = useStyles();
   const [inputValue, setInputValue] = useState("");
 
   const handleClose = () => {
+    setInputValue("");
     closeDialog();
+    resetEditTask();
   };
+
+  useEffect(() => {
+    setInputValue(editTaskObject.description);
+  }, [editTaskObject]);
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  const addTaskAndCloseDialog = (taskDescription) => {
+  const addUpdateTask = (taskDescription) => {
     if (taskDescription) {
-      handleAddTask(taskDescription);
+      if (editTask) {
+        handleEditTask(taskDescription);
+      } else {
+        handleAddTask(taskDescription);
+      }
+
       setInputValue("");
     }
   };
@@ -76,8 +95,7 @@ function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObj
         classes={{ root: classes.customPadding }}
       >
         <Button variant="text" disableRipple>
-          { editTask ?(<b>Update Task</b>) :(<b>New Task</b>)}
-          
+          {editTask ? <b>Update Task</b> : <b>New Task</b>}
         </Button>
       </DialogTitle>
       <div className={classes.inputContainer}>
@@ -87,17 +105,17 @@ function NewTaskDialog({ open, closeDialog, handleAddTask, editTask, editTaskObj
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
-          value={editTask ? inputValue : editTaskObject.description}
+          value={inputValue}
           onChange={handleChange}
         />
       </div>
       <Button
-        onClick={() => addTaskAndCloseDialog(inputValue)}
+        onClick={() => addUpdateTask(inputValue)}
         variant="contained"
         color="primary"
         className={classes.newTaskButton}
       >
-        <AddIcon /> New Task
+        {editTask ? <b>Update Task</b> : <b>New Task</b>}
       </Button>
     </Dialog>
   );

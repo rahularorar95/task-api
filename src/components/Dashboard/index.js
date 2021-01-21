@@ -17,8 +17,8 @@ function Dashboard() {
   const classes = useStyles();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const [editTask, setEditTask] = useState(false)
-  const [editTaskObject, setEditTaskObject] = useState({})
+  const [editTask, setEditTask] = useState(false);
+  const [editTaskObject, setEditTaskObject] = useState({});
 
   const [taskList, updateTaskList] = useState([
     {
@@ -69,9 +69,20 @@ function Dashboard() {
     handleDialogClose();
   };
 
-  const handleEditTask = (taskId,taskDescription)=>{
+  const handleEditTask = (taskDescription) => {
+    const selectedTaskId = editTaskObject.id;
 
-  }
+    const updatedTaskList = taskList.map((task) =>
+      task.id === selectedTaskId
+        ? { ...task, description: taskDescription }
+        : task
+    );
+
+    updateTaskList(updatedTaskList);
+
+    resetEditTask();
+    handleDialogClose();
+  };
 
   const toggleTaskStatus = (taskId) => {
     const updatedTaskList = taskList.map((task) =>
@@ -81,11 +92,10 @@ function Dashboard() {
     updateTaskList(updatedTaskList);
   };
 
-  const hanleEditClick = (taskId,taskDescription) => {
-    setEditTask(true)
-    setEditTaskObject({id:taskId,desription:taskDescription})
-    setDialogOpen(true)
-
+  const hanleEditClick = (taskId, taskDescription) => {
+    setEditTask(true);
+    setEditTaskObject({ id: taskId, description: taskDescription });
+    setDialogOpen(true);
   };
 
   const handleDeleteClick = (taskId) => {
@@ -93,6 +103,10 @@ function Dashboard() {
     updateTaskList(updatedTaskList);
   };
 
+  const resetEditTask = () => {
+    setEditTask(false);
+    setEditTaskObject({});
+  };
   return (
     <div className={classes.root}>
       <Header />
@@ -115,9 +129,10 @@ function Dashboard() {
         open={dialogOpen}
         closeDialog={handleDialogClose}
         handleAddTask={handleAddTask}
-        editTask = {editTask}
-        editTaskObject = {editTaskObject}
-        handleEditTask = {handleEditTask}
+        editTask={editTask}
+        editTaskObject={editTaskObject}
+        handleEditTask={handleEditTask}
+        resetEditTask={resetEditTask}
       />
     </div>
   );
