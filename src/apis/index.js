@@ -1,11 +1,11 @@
 import axios from "axios";
 
 export const axiosLogin = axios.create({
-  baseURL: "http://34.229.13.159:8080",
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 export const axiosAuth = axios.create({
-  baseURL: "http://34.229.13.159:8080",
+  baseURL: process.env.REACT_APP_API_BASE_URL,
 });
 
 axiosAuth.interceptors.request.use(function (config) {
