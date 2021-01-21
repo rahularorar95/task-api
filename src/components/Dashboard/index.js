@@ -32,6 +32,7 @@ function Dashboard({ username }) {
           redirectToLogin();
         }
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const redirectToLogin = () => {
