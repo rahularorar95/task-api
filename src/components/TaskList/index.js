@@ -157,7 +157,6 @@ function TaskList({
       <Paper className={classes.paper}>
         <List className={classes.list}>
           {taskListCopy?.map(({ id, description, completed }) => {
-            console.log(id, description, completed);
             const labelId = `checkbox-list-label-${id}`;
 
             return (
@@ -166,7 +165,7 @@ function TaskList({
                 role={undefined}
                 dense
                 button
-                onClick={() => toggleTaskStatus(id)}
+                onClick={() => toggleTaskStatus(id,completed)}
               >
                 <ListItemIcon>
                   <Checkbox

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Header from "../Header";
 import TaskList from "../TaskList";
@@ -6,6 +6,8 @@ import DashboardSummary from "../DashboardSummary";
 import EmptyDashboard from "../EmptyDashboard";
 import Container from "../../container";
 import NewTaskDialog from "../NewTaskDialog";
+import { axiosAuth } from "../../apis";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,41 +15,37 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Dashboard({username}) {
+function Dashboard({ username }) {
   const classes = useStyles();
+  const history = useHistory();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [editTask, setEditTask] = useState(false);
   const [editTaskObject, setEditTaskObject] = useState({});
 
-  const [taskList, updateTaskList] = useState([
-    {
-      id: 1,
-      description: "test",
-      completed: true,
-    },
-    {
-      id: 2,
-      description: "test2",
-      completed: false,
-    },
-    {
-      id: 3,
-      description: "test6",
-      completed: true,
-    },
-    {
-      id: 4,
-      description: "test34",
-      completed: false,
-    },
-    {
-      id: 5,
-      description: "test5",
-      completed: true,
-    },
-  ]);
+  const [taskList, updateTaskList] = useState([]);
 
+  useEffect(() => {
+    axiosAuth
+      .get("/tasks")
+      .then((res) => {
+        console.log(res.status);
+        if (res.status == 200) {
+          updateTaskList(res.data);
+        }
+      })
+      .catch((err) => {
+        //unauthorized
+        if (err.response.status === 401) {
+          redirectToLogin();
+        }
+      });
+  }, []);
+
+  const redirectToLogin = () => {
+    localStorage.removeItem("token");
+    history.push("/");
+  };
   const handleDialogOpen = () => {
     setDialogOpen(true);
   };
@@ -58,38 +56,67 @@ function Dashboard({username}) {
 
   const handleAddTask = (taskDescription) => {
     console.log(taskDescription);
-    updateTaskList([
-      ...taskList,
-      {
-        id: Math.floor(Math.random() * 100),
-        description: taskDescription,
-        completed: false,
-      },
-    ]);
+
+    axiosAuth
+      .post("/tasks", { description: taskDescription })
+      .then((res) => {
+        if (res.status === 201) {
+          const newTask = res.data;
+          updateTaskList([...taskList, newTask]);
+        }
+      })
+      .catch((err) => {
+        //unauthorized
+        if (err.response.status === 401) {
+          redirectToLogin();
+        }
+      });
+
     handleDialogClose();
   };
 
   const handleEditTask = (taskDescription) => {
     const selectedTaskId = editTaskObject.id;
-
-    const updatedTaskList = taskList.map((task) =>
-      task.id === selectedTaskId
-        ? { ...task, description: taskDescription }
-        : task
-    );
-
-    updateTaskList(updatedTaskList);
+    axiosAuth
+      .patch(`/tasks/${selectedTaskId}`, { description: taskDescription })
+      .then((res) => {
+        if (res.status === 200) {
+          const updatedTaskList = taskList.map((task) =>
+            task.id === selectedTaskId
+              ? { ...task, description: taskDescription }
+              : task
+          );
+          updateTaskList(updatedTaskList);
+        }
+      })
+      .catch((err) => {
+        //unauthorized
+        if (err.response.status === 401) {
+          redirectToLogin();
+        }
+      });
 
     resetEditTask();
     handleDialogClose();
   };
 
-  const toggleTaskStatus = (taskId) => {
-    const updatedTaskList = taskList.map((task) =>
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    );
-
-    updateTaskList(updatedTaskList);
+  const toggleTaskStatus = (taskId, completed) => {
+    axiosAuth
+      .patch(`/tasks/${taskId}`, { completed: !completed })
+      .then((res) => {
+        if (res.status === 200) {
+          const updatedTaskList = taskList.map((task) =>
+            task.id === taskId ? { ...task, completed: !completed } : task
+          );
+          updateTaskList(updatedTaskList);
+        }
+      })
+      .catch((err) => {
+        //unauthorized
+        if (err.response.status === 401) {
+          redirectToLogin();
+        }
+      });
   };
 
   const hanleEditClick = (taskId, taskDescription) => {
@@ -99,8 +126,20 @@ function Dashboard({username}) {
   };
 
   const handleDeleteClick = (taskId) => {
-    const updatedTaskList = taskList.filter((task) => task.id !== taskId);
-    updateTaskList(updatedTaskList);
+    axiosAuth
+      .delete(`/tasks/${taskId}`)
+      .then((res) => {
+        if (res.status == 200) {
+          const updatedTaskList = taskList.filter((task) => task.id !== taskId);
+          updateTaskList(updatedTaskList);
+        }
+      })
+      .catch((err) => {
+        //unauthorized
+        if (err.response.status === 401) {
+          redirectToLogin();
+        }
+      });
   };
 
   const resetEditTask = () => {
@@ -109,7 +148,7 @@ function Dashboard({username}) {
   };
   return (
     <div className={classes.root}>
-      <Header username = {username}/>
+      <Header username={username} />
       {taskList.length > 0 ? (
         <Container>
           <DashboardSummary taskList={taskList} />

@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import InputBase from "@material-ui/core/InputBase";
 import Typography from "@material-ui/core/Typography";
 import { useHistory } from "react-router-dom";
-import axios from "../../apis";
+import { axiosLogin } from "../../apis";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Login({setLoginStatus}) {
+function Login({ setLoginStatus }) {
   const classes = useStyles();
   let history = useHistory();
   const [name, setName] = useState("");
@@ -55,13 +55,17 @@ function Login({setLoginStatus}) {
   };
 
   const login = () => {
-    axios.post("/login", { username: name }).then((res) => {
-      console.log(res)
-      setLoginStatus(res.data.token,res.data.username)
-      history.push('/dashboard')
-    }).catch(err=>{
-      console.log(err)
-    })
+    axiosLogin
+      .post("/login", { username: name })
+      .then((res) => {
+        if (res.status === 200) {
+          setLoginStatus(res.data.token, res.data.username);
+          history.push("/dashboard");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <Paper className={classes.paper}>

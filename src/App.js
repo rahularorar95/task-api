@@ -18,7 +18,7 @@ function App() {
   const setLoginStatus = (token, name) => {
     setAuthToken(token);
     setAuthUser(name);
-    localStorage.setItem("token",token)
+    localStorage.setItem("token", token);
   };
   return (
     <Router>
