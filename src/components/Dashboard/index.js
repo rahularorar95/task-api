@@ -5,11 +5,13 @@ import DashboardSummary from "../DashboardSummary";
 import EmptyDashboard from "../EmptyDashboard";
 import Container from "../../container";
 import NewTaskDialog from "../NewTaskDialog";
+import Loader from "../Loader";
 import { axiosAuth } from "../../apis";
 import { useHistory } from "react-router-dom";
 
 function Dashboard({ username }) {
   const history = useHistory();
+  const [loader, setloader] = useState(false);
   const [contentLoading, setContentLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editTask, setEditTask] = useState(false);
@@ -48,15 +50,18 @@ function Dashboard({ username }) {
   };
 
   const handleAddTask = (taskDescription) => {
+    setloader(true);
     axiosAuth
       .post("/tasks", { description: taskDescription })
       .then((res) => {
+        setloader(false);
         if (res.status === 201) {
           const newTask = res.data;
           updateTaskList([...taskList, newTask]);
         }
       })
       .catch((err) => {
+        setloader(false);
         //unauthorized
         if (err.response.status === 401) {
           redirectToLogin();
@@ -68,9 +73,11 @@ function Dashboard({ username }) {
 
   const handleEditTask = (taskDescription) => {
     const selectedTaskId = editTaskObject.id;
+    setloader(true);
     axiosAuth
       .patch(`/tasks/${selectedTaskId}`, { description: taskDescription })
       .then((res) => {
+        setloader(false);
         if (res.status === 200) {
           const updatedTaskList = taskList.map((task) =>
             task.id === selectedTaskId
@@ -81,6 +88,7 @@ function Dashboard({ username }) {
         }
       })
       .catch((err) => {
+        setloader(false);
         //unauthorized
         if (err.response.status === 401) {
           redirectToLogin();
@@ -92,9 +100,11 @@ function Dashboard({ username }) {
   };
 
   const toggleTaskStatus = (taskId, completed) => {
+    setloader(true);
     axiosAuth
       .patch(`/tasks/${taskId}`, { completed: !completed })
       .then((res) => {
+        setloader(false);
         if (res.status === 200) {
           const updatedTaskList = taskList.map((task) =>
             task.id === taskId ? { ...task, completed: !completed } : task
@@ -103,6 +113,7 @@ function Dashboard({ username }) {
         }
       })
       .catch((err) => {
+        setloader(false);
         //unauthorized
         if (err.response.status === 401) {
           redirectToLogin();
@@ -117,15 +128,18 @@ function Dashboard({ username }) {
   };
 
   const handleDeleteClick = (taskId) => {
+    setloader(true);
     axiosAuth
       .delete(`/tasks/${taskId}`)
       .then((res) => {
+        setloader(false);
         if (res.status === 200) {
           const updatedTaskList = taskList.filter((task) => task.id !== taskId);
           updateTaskList(updatedTaskList);
         }
       })
       .catch((err) => {
+        setloader(false);
         //unauthorized
         if (err.response.status === 401) {
           redirectToLogin();
@@ -141,6 +155,8 @@ function Dashboard({ username }) {
   return (
     <div>
       <Header username={username} />
+
+      {loader ? <Loader /> : ""}
       {!contentLoading && taskList.length <= 0 ? (
         <EmptyDashboard openDialog={handleDialogOpen} />
       ) : (
