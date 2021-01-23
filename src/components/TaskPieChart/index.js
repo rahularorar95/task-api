@@ -34,7 +34,6 @@ function TaskPieChart({ totalCompletedTasks, totalTasks }) {
           },
         ]}
       />
-      ;
     </Paper>
   );
 }
