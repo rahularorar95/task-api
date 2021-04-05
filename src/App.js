@@ -3,19 +3,24 @@ import {
   BrowserRouter as Router,
   Switch,
   Redirect,
+  useLocation
 } from "react-router-dom";
 import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 function App() {
   const [authUser, setAuthUser] = useState("");
-
+  const location = useLocation();
   const setLoginStatus = (token, name) => {
     setAuthUser(name);
     localStorage.setItem("token", token);
   };
+  
+   useEffect(() => {
+    window['strum']('routeChange', window.location.href);
+  }, [location]);
   return (
     <Router>
       <Switch>
